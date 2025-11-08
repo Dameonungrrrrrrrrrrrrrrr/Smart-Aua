@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Aua - Экономь каждую каплю</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">Smart Aua</div>
+                <div class="nav-buttons">
+                    <button class="btn-login" onclick="showLogin()">Кіру</button>
+                    <button class="btn-register" onclick="showRegister()">Тіркелу</button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="hero-content">
+            <h1 class="hero-title">"Су — бұл ресурс емес, су — бұл өмір."</h1>
+            <p class="hero-subtitle">Қызылорда ауданы үшін тұрақты ауылшаруашылығының сандық шешімдері</p>
+            
+            <div class="auth-forms">
+                <!-- Login Form -->
+                <div id="loginForm" class="auth-form">
+                    <h3>Кіру</h3>
+                    <input type="text" id="loginEmail" placeholder="Email немесе Логин">
+                    <input type="password" id="loginPassword" placeholder="Құпия сөз">
+                    <button class="btn-primary" onclick="login()">Кіру</button>
+                    <button class="btn-google" onclick="loginWithGoogle()">Google арқылы кіру</button>
+                    <div class="form-switch">
+                        Тіркелмедіңіз бе? <a onclick="showRegister()">Тіркелу</a>
+                    </div>
+                </div>
+
+                <!-- Register Form -->
+                <div id="registerForm" class="auth-form hidden">
+                    <h3>Тіркелу</h3>
+                    <input type="text" id="regLastName" placeholder="Тегі">
+                    <input type="text" id="regFirstName" placeholder="Аты">
+                    <input type="email" id="regEmail" placeholder="Email">
+                    <input type="password" id="regPassword" placeholder="Құпия сөз">
+                    <input type="password" id="regConfirmPassword" placeholder="Құпия сөзді қайталаңыз">
+                    <select id="regDistrict">
+                        <option value="">Ауданын таңдаңыз</option>
+                        <option value="aral">Арал ауданы</option>
+                        <option value="karmakshy">Қармақшы ауданы</option>
+                        <option value="zhalagash">Жалағаш ауданы</option>
+                        <option value="zhanakorgan">Жаңақорған ауданы</option>
+                        <option value="syrdarya">Сырдария ауданы</option>
+                        <option value="kazaly">Қазалы ауданы</option>
+                        <option value="shieli">Шиелі ауданы</option>
+                    </select>
+                    <div class="captcha">
+                        <div id="captchaText" class="captcha-text"></div>
+                        <input type="text" id="captchaInput" placeholder="Жоғарыдағы кодты енгізіңіз">
+                    </div>
+                    <button class="btn-primary" onclick="register()">Тіркелу</button>
+                    <div class="form-switch">
+                        Тіркелдіңіз бе? <a onclick="showLogin()">Кіру</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard (Hidden until login) -->
+    <section id="dashboard" class="dashboard hidden">
+        <div class="dashboard-container">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="logo">Smart Aua</div>
+                <nav class="sidebar-nav">
+                    <a href="#" class="nav-item active" data-tab="dashboard">Басты бет</a>
+                    <a href="#" class="nav-item" data-tab="irrigation">Суғару жоспары</a>
+                    <a href="#" class="nav-item" data-tab="analytics">Болжамдар және талдау</a>
+                    <a href="#" class="nav-item" data-tab="courses">Курстар</a>
+                    <a href="#" class="nav-item" data-tab="ai-bot">AiQanat-пен сөйлесу</a>
+                    <a href="#" class="nav-item" data-tab="news">Жаңалықтар</a>
+                    <a href="#" class="nav-item" data-tab="settings">Баптаулар</a>
+                </nav>
+                <button class="btn-logout" onclick="logout()">Шығу</button>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Welcome Section -->
+                <div class="welcome-section">
+                    <h2 id="userWelcome">Қош келдіңіз!</h2>
+                    <p id="userLocation"></p>
+                </div>
+
+                <!-- Active Plans -->
+                <div class="section">
+                    <h3>Белсенді жоспарлар</h3>
+                    <div class="cards-container">
+                        <div class="card">
+                            <h4>Бидайды суғару</h4>
+                            <p class="date">15 қараша - 20 қараша</p>
+                            <p class="status">Ұсынылады: 75% қалыпты</p>
+                            <p class="days-left">2 күн қалды</p>
+                        </div>
+                        <div class="card">
+                            <h4>Тыңайтқыштарды енгізу</h4>
+                            <p class="date">18 қараша - 22 қараша</p>
+                            <p class="status">Тамшылы суғарумен үйлестіру</p>
+                            <p class="days-left">5 күн қалды</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Metrics -->
+                <div class="section">
+                    <h3>Негізгі метрикалар</h3>
+                    <div class="metrics">
+                        <div class="metric-card">
+                            <h4>Ағымдағы айдағы су үнемдеу</h4>
+                            <div class="metric-value">15%</div>
+                            <p>Өткен жылмен салыстырғанда</p>
+                        </div>
+                        <div class="metric-card">
+                            <h4>Сырдариядан су ағынын болжау</h4>
+                            <p class="date">25 қараша - 30 қараша</p>
+                            <div class="metric-value positive">+10%</div>
+                            <p>Үлғайту күтілуде</p>
+                        </div>
+                    </div>
+                    <div class="ai-recommendation">
+                        <strong>AI ұсынысы:</strong> Келесі аптада температураның жоғарылауы күтілуде. Булануды азайту үшін таңертеңгі суғаруды кешке ауыстыруды ұсынамыз.
+                    </div>
+                </div>
+
+                <!-- Tab Content -->
+                <div id="tabContent">
+                    <!-- Content will be loaded here by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>"Су үнемдеді — болашақты қамтамасыз етті."</p>
+            <div class="footer-logo">Smart Aua</div>
+            <div class="footer-links">
+                <a href="#">Қолдау</a>
+                <a href="#">Біз туралы</a>
+                <a href="#">Серіктестер</a>
+            </div>
+            <button class="btn-download">Мобильді қосымшаны жүктеу</button>
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/ai-bot.js"></script>
+    <script src="js/calculator.js"></script>
+</body>
+</html>
